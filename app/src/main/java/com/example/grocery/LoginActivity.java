@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
+            Log.d("tes", "MyClass.getView() — get item number " + email);
             Toast.makeText(this,"Invalid email pattern....", Toast.LENGTH_SHORT).show();
             return;
         }

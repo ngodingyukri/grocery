@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:inputType="textPersonName|textCapWords"
-        android:background="@drawable/shaoe_rect02"/>
+        android:background="@drawable/shape_rect02"/>
 
     <EditText
         android:id="@+id/phoneEt"
@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:inputType="phone"
-        android:background="@drawable/shaoe_rect02"/>
+        android:background="@drawable/shape_rect02"/>
 
     <LinearLayout
         android:id="@+id/addressLi"
@@ -114,7 +114,7 @@
             android:layout_margin="5dp"
             android:inputType="textPostalAddress"
             android:layout_weight="1"
-            android:background="@drawable/shaoe_rect02"/>
+            android:background="@drawable/shape_rect02"/>
 
         <EditText
             android:id="@+id/stateEt"
@@ -127,7 +127,7 @@
             android:layout_margin="5dp"
             android:inputType="textPostalAddress"
             android:layout_weight="1"
-            android:background="@drawable/shaoe_rect02"/>
+            android:background="@drawable/shape_rect02"/>
 
         <EditText
             android:id="@+id/cityEt"
@@ -140,7 +140,7 @@
             android:layout_margin="5dp"
             android:inputType="textPostalAddress"
             android:layout_weight="1"
-            android:background="@drawable/shaoe_rect02"/>
+            android:background="@drawable/shape_rect02"/>
 
     </LinearLayout>
 
@@ -154,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:inputType="textPostalAddress|textMultiLine"
-        android:background="@drawable/shaoe_rect02"/>
+        android:background="@drawable/shape_rect02"/>
 
 
     <EditText
@@ -167,7 +167,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:inputType="textEmailAddress"
-        android:background="@drawable/shaoe_rect02"/>
+        android:background="@drawable/shape_rect02"/>
 
     <EditText
         android:id="@+id/passwordEt"
@@ -179,7 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:inputType="textPassword"
-        android:background="@drawable/shaoe_rect02"/>
+        android:background="@drawable/shape_rect02"/>
 
     <EditText
         android:id="@+id/cPasswordEt"
@@ -191,7 +191,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:inputType="textPassword"
-        android:background="@drawable/shaoe_rect02"/>
+        android:background="@drawable/shape_rect02"/>
 
     <Button
         android:id="@+id/registerBtn"

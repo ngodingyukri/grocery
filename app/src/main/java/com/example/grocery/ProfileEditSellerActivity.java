@@ -105,10 +105,12 @@ public class ProfileEditSellerActivity extends AppCompatActivity implements Loca
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        firebaseAuth = firebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please Wait");
         progressDialog.setCanceledOnTouchOutside(false);
+
+        firebaseAuth = firebaseAuth.getInstance();
+        checkUser();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +161,7 @@ public class ProfileEditSellerActivity extends AppCompatActivity implements Loca
         name = nameEt.getText().toString().trim();
         shopName = shopNameEt.getText().toString().trim();
         phone  = phoneEt.getText().toString().trim();
+        deliveryFee = deliveryFeeEt.getText().toString().trim();
         country = countryEt.getText().toString().trim();
         state =stateEt.getText().toString().trim();
         city = cityEt.getText().toString().trim();
@@ -225,7 +228,48 @@ public class ProfileEditSellerActivity extends AppCompatActivity implements Loca
                             Uri downloadImageUri = uriTask.getResult();
 
                             if(uriTask.isSuccessful()){
-                                //image url received, now update
+                                //image url received, now update db
+
+                                //update without image
+                                //setup data to update
+                                HashMap<String, Object> hashMap = new HashMap<>();
+                                hashMap.put("name", ""+name);
+                                hashMap.put("shopName",""+shopName);
+                                hashMap.put("phone",""+phone);
+                                hashMap.put("deliveryFee",""+deliveryFee);
+                                hashMap.put("country",""+country);
+                                hashMap.put("state",""+state);
+                                hashMap.put("city",""+city);
+                                hashMap.put("address",""+address);
+                                hashMap.put("latitude",""+latitude);
+                                hashMap.put("longitude",""+longitude);
+                                hashMap.put("shopeOpen",""+shopOpen);
+                                hashMap.put("profileImage",""+downloadImageUri);
+
+                                //update to db
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+                                ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                //update
+                                                progressDialog.dismiss();
+                                                Toast.makeText(ProfileEditSellerActivity.this, "Profile Update",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        //failed update
+                                        progressDialog.dismiss();
+                                        Toast.makeText(ProfileEditSellerActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(ProfileEditSellerActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                             }
                         }
                     });
