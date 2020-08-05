@@ -19,17 +19,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".EditProductActivity"></activity>
-        <activity android:name=".AddProductActivity" />
-        <activity android:name=".ProfileEditSellerActivity" />
-        <activity android:name=".ProfileEditUserActivity" />
-        <activity android:name=".MainUserActivity" />
-        <activity android:name=".SplashActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".RegisterUserActivity" />
-        <activity android:name=".RegisterSellerActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainSellerActivity">
+        <activity android:name=".activities.ShopDetailsActivity"></activity>
+        <activity android:name=".activities.AddProductActivity" />
+        <activity android:name=".activities.ProfileEditSellerActivity" />
+        <activity android:name=".activities.ProfileEditUserActivity" />
+        <activity android:name=".activities.MainUserActivity" />
+        <activity android:name=".activities.SplashActivity" />
+        <activity android:name=".activities.ForgotPasswordActivity" />
+        <activity android:name=".activities.RegisterUserActivity" />
+        <activity android:name=".activities.RegisterSellerActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.EditProductActivity" />
+        <activity android:name=".activities.MainSellerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

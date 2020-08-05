@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,6 +18,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.grocery.FilterProduct;
+import com.example.grocery.R;
+import com.example.grocery.activities.EditProductActivity;
+import com.example.grocery.models.ModelProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -26,8 +30,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-import java.net.IDN;
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 
 public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSeller.HolderProductSeller> implements Filterable {
@@ -86,6 +88,8 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
             //product is not on discountt
             holder.discountedPriceTv.setVisibility(View.GONE);
             holder.discountedNoteTv.setVisibility(View.GONE);
+            holder.originalPriceTv.setPaintFlags(0);
+
         }
 
         try

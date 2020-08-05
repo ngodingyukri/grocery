@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.grocery.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -305,7 +306,7 @@ public class ProfileEditSellerActivity extends AppCompatActivity implements Loca
                             String country = ""+ds.child("country").getValue();
                             String deliveryFee = ""+ds.child("deliveryFee").getValue();
                             String email = ""+ds.child("email").getValue();
-                            latitude = Double.parseDouble(""+ds.child("latitde").getValue());
+                            latitude = Double.parseDouble(""+ds.child("latitude").getValue());
                             longitude = Double.parseDouble(""+ds.child("longitude").getValue());
                             String name = ""+ds.child("name").getValue();
                             String online = ""+ds.child("oneline").getValue();

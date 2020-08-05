@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.grocery.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -157,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                         for(DataSnapshot ds: snapshot.getChildren())
                         {
                             String accountType = ""+ds.child("accountType").getValue();
-                            if (accountType.equals("Seller"))
+                            if (accountType.equals("seller"))
                             {
                                 progressDialog.dismiss();;
                                 //user is seller

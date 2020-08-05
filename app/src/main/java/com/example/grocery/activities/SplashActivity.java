@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.grocery.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,24 +59,21 @@ public class SplashActivity extends AppCompatActivity {
         //if user is buyer, start user main screen
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.orderByChild("uid").equalTo(firebaseAuth.getUid())
+        ref.child(firebaseAuth.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot ds: snapshot.getChildren())
+                        String accountType = ""+snapshot.child("accountType").getValue();
+                        if (accountType.equals("seller"))
                         {
-                            String accountType = ""+ds.child("accountType").getValue();
-                            if (accountType.equals("Seller"))
-                            {
-                                //user is seller
-                                startActivity(new Intent(SplashActivity.this, MainSellerActivity.class));
-                                finish();
-                            }
-                            else
-                            {
-                                startActivity(new Intent(SplashActivity.this, MainUserActivity.class));
-                                finish();
-                            }
+                            //user is seller
+                            startActivity(new Intent(SplashActivity.this, MainSellerActivity.class));
+                            finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(SplashActivity.this, MainUserActivity.class));
+                            finish();
                         }
                     }
 
