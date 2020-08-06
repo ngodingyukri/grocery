@@ -1,14 +1,18 @@
 package com.example.grocery.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +24,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import p32929.androideasysql_library.Column;
+import p32929.androideasysql_library.EasyDB;
+
 public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductUser> implements Filterable {
 
     private Context context;
-    public ArrayList<ModelProduct> productsList , filterList;
+    public ArrayList<ModelProduct> productsList, filterList;
     private FilterProductUser filter;
 
     public AdapterProductUser(Context context, ArrayList<ModelProduct> productsList) {
@@ -37,14 +44,14 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     public HolderProductUser onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //inflate layout
-        View view = LayoutInflater.from(context).inflate(R.layout.row_product_user, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_product_user, parent, false);
         return new HolderProductUser(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HolderProductUser holder, int position) {
         //get data
-        ModelProduct modelProduct = productsList.get(position);
+        final ModelProduct modelProduct = productsList.get(position);
         String discountAvailable = modelProduct.getDiscountAvailable();
         String discountNote = modelProduct.getDiscountNote();
         String discountPrice = modelProduct.getDiscountPrice();
@@ -61,30 +68,24 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         holder.titleTv.setText(productTitle);
         holder.discountedNoteTv.setText(discountNote);
         holder.descriptionTv.setText(productDescription);
-        holder.originalPriceTv.setText("$"+originalPrice);
-        holder.discountedPriceTv.setText("$"+discountPrice);
+        holder.originalPriceTv.setText("$" + originalPrice);
+        holder.discountedPriceTv.setText("$" + discountPrice);
 
-        if(discountAvailable.equals("true"))
-        {
+        if (discountAvailable.equals("true")) {
             //product is on discount
             holder.discountedPriceTv.setVisibility(View.VISIBLE);
             holder.discountedNoteTv.setVisibility(View.VISIBLE);
             holder.originalPriceTv.setPaintFlags(holder.originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }
-        else
-        {
+        } else {
             //product is not on discountt
             holder.discountedPriceTv.setVisibility(View.GONE);
             holder.discountedNoteTv.setVisibility(View.GONE);
             holder.originalPriceTv.setPaintFlags(0);
         }
 
-        try
-        {
+        try {
             Picasso.get().load(productIcon).placeholder(R.drawable.ic_add_shoping_primary).into(holder.productIconIv);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             holder.productIconIv.setImageResource(R.drawable.ic_add_shoping_primary);
         }
 
@@ -92,6 +93,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             @Override
             public void onClick(View v) {
                 //add product to cart
+                showQuantityDialog(modelProduct);
             }
         });
 
@@ -105,6 +107,145 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
     }
 
+    private double cost = 0;
+    private double finalcost = 0;
+    private int quantity = 0;
+
+
+    private void showQuantityDialog(ModelProduct modelProduct) {
+        //inflate layout for dialog
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_quantity, null);
+        //init layout views
+        ImageView productIv = view.findViewById(R.id.productIv);
+        final TextView titleTv = view.findViewById(R.id.titleTv);
+        TextView pQuantityTv = view.findViewById(R.id.pQuantityTv);
+        TextView descriptionTv = view.findViewById(R.id.descriptionTv);
+        TextView discountedNoteTv = view.findViewById(R.id.discountedNoteTv);
+        final TextView originalPriceTv = view.findViewById(R.id.originalPriceTv);
+        TextView priceDiscountedTv = view.findViewById(R.id.priceDiscountedTv);
+        final TextView finalPriceTv = view.findViewById(R.id.finalPriceTv);
+        ImageButton decrementBtn = view.findViewById(R.id.decrementBtn);
+        final TextView quantityTv = view.findViewById(R.id.quantityTv);
+        ImageButton incrementBtn = view.findViewById(R.id.incrementBtn);
+        Button continueBtn = view.findViewById(R.id.continueBtn);
+
+        //get data from model
+        final String productId = modelProduct.getProductId();
+        String title = modelProduct.getProductTitle();
+        String productQuantity = modelProduct.getProductQuantity();
+        String description = modelProduct.getProductDescription();
+        String discountNote = modelProduct.getDiscountNote();
+        String image = modelProduct.getProductIcon();
+
+        String price;
+        if (modelProduct.getDiscountAvailable().equals("true")) {
+            //product have discount
+            price = modelProduct.getDiscountPrice();
+            discountedNoteTv.setVisibility(View.VISIBLE);
+            originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); // ADD STRIKE THROUG ON ORIGINAL PRICE
+        } else {
+            //rpduct don't have discount
+            discountedNoteTv.setVisibility(View.GONE);
+            priceDiscountedTv.setVisibility(View.GONE);
+            price = modelProduct.getOriginalPrice();
+        }
+
+        cost = Double.parseDouble(price.replaceAll("Rp", ""));
+        finalcost = Double.parseDouble(price.replaceAll("Rp", ""));
+        quantity = 1;
+
+        //dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+
+        try {
+            Picasso.get().load(image).placeholder(R.drawable.ic_cart_gray).into(productIv);
+        }
+        catch (Exception e)
+        {
+            productIv.setImageResource(R.drawable.ic_cart_gray);
+        }
+
+        titleTv.setText(""+title);
+        pQuantityTv.setText(""+productQuantity);
+        descriptionTv.setText(""+description);
+        discountedNoteTv.setText(""+discountNote);
+        quantityTv.setText(""+quantity);
+        originalPriceTv.setText("Rp "+modelProduct.getOriginalPrice());
+        priceDiscountedTv.setText("Rp "+modelProduct.getDiscountPrice());
+        finalPriceTv.setText("Rp "+finalcost);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        //increase quantity of the product
+        incrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalcost = finalcost + cost;
+                quantity++;
+
+                finalPriceTv.setText("Rp "+finalcost);
+                quantityTv.setText(""+quantity);
+            }
+        });
+
+        //decrement quantity of product, only if quantity is > 1
+        decrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(quantity>1)
+                {
+                    finalcost = finalcost - cost;
+                    quantity --;
+                    finalPriceTv.setText("Rp "+finalcost);
+                    quantityTv.setText(""+quantity);
+                }
+            }
+        });
+
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = titleTv.getText().toString().trim().replace("Rp", "");
+                String priceEach = originalPriceTv.getText().toString().trim().replace("","");
+                String price = finalPriceTv.getText().toString().trim();
+                String quantity = quantityTv.getText().toString().trim();
+
+                //add to db(SQLite)
+                addToCart(productId, title, priceEach, price,quantity);
+
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private int itemId = 1;
+    private void addToCart(String productId, String title, String priceEach, String price, String quantity) {
+        itemId++;
+
+        EasyDB easyDB = EasyDB.init(context, "ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id", new String[]{"text","unique"}))
+                .addColumn(new Column("Item_PID", new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Name", new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price_Each", new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price", new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Quantity", new String[]{"text","not null"}))
+                .doneTableColumn();
+
+        Boolean b = easyDB.addData("Item_Id", itemId)
+                .addData("Item_PID", productId)
+                .addData("Item_Name", productId)
+                .addData("Item_Price_Each", productId)
+                .addData("Item_Price", productId)
+                .addData("Item_Quantity", productId)
+                .doneDataAdding();
+
+        Toast.makeText(context,"Add to Cart .... ", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public int getItemCount() {
         return productsList.size();
@@ -112,20 +253,19 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
     @Override
     public Filter getFilter() {
-        if(filter == null)
-        {
+        if (filter == null) {
             filter = new FilterProductUser(this, filterList);
         }
         return filter;
     }
 
-    class HolderProductUser extends RecyclerView.ViewHolder
-    {
+    class HolderProductUser extends RecyclerView.ViewHolder {
 
         //ui views
 
         private ImageView productIconIv;
         private TextView discountedNoteTv, titleTv, descriptionTv, addToCartTv, discountedPriceTv, originalPriceTv;
+
         public HolderProductUser(@NonNull View itemView) {
             super(itemView);
 

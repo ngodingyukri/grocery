@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".activities.ShopDetailsActivity"></activity>
+        <activity android:name=".activities.ShopDetailsActivity" android:windowSoftInputMode="stateHidden" /> <!--//hide keyboard by default-->
         <activity android:name=".activities.AddProductActivity" />
         <activity android:name=".activities.ProfileEditSellerActivity" />
         <activity android:name=".activities.ProfileEditUserActivity" />

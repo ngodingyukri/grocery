@@ -38,6 +38,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //sqlite
+    implementation 'com.github.p32929:AndroidEasySQL-Library:1.4.1'
+
     //circularImageView
     implementation 'com.github.mohammadatif:CircularImageView:1.0.0'
     //noinspection GradleDynamicVersion

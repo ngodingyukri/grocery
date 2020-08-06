@@ -85,12 +85,12 @@ public class LoginActivity extends AppCompatActivity {
         email = emailEt.getText().toString().trim();
         password = passwordEt.getText().toString().trim();
 
-        if(Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        /*if(Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
             Log.d("tes", "MyClass.getView() — get item number " + email);
             Toast.makeText(this,"Invalid email pattern....", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         if(TextUtils.isEmpty(password))
         {
