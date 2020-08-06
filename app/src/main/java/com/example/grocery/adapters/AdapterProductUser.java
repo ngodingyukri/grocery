@@ -68,8 +68,8 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         holder.titleTv.setText(productTitle);
         holder.discountedNoteTv.setText(discountNote);
         holder.descriptionTv.setText(productDescription);
-        holder.originalPriceTv.setText("$" + originalPrice);
-        holder.discountedPriceTv.setText("$" + discountPrice);
+        holder.originalPriceTv.setText("Rp" + originalPrice);
+        holder.discountedPriceTv.setText("Rp" + discountPrice);
 
         if (discountAvailable.equals("true")) {
             //product is on discount
@@ -137,7 +137,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         String discountNote = modelProduct.getDiscountNote();
         String image = modelProduct.getProductIcon();
 
-        String price;
+        final String price;
         if (modelProduct.getDiscountAvailable().equals("true")) {
             //product have discount
             price = modelProduct.getDiscountPrice();
@@ -208,12 +208,12 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             @Override
             public void onClick(View v) {
                 String title = titleTv.getText().toString().trim().replace("Rp", "");
-                String priceEach = originalPriceTv.getText().toString().trim().replace("","");
-                String price = finalPriceTv.getText().toString().trim();
+                String priceEach = price;
+                String totalPrice = finalPriceTv.getText().toString().trim();
                 String quantity = quantityTv.getText().toString().trim();
 
                 //add to db(SQLite)
-                addToCart(productId, title, priceEach, price,quantity);
+                addToCart(productId, title, priceEach, totalPrice,quantity);
 
                 dialog.dismiss();
             }

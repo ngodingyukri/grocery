@@ -36,6 +36,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MainSellerActivity extends AppCompatActivity {
 
@@ -224,7 +225,7 @@ public class MainSellerActivity extends AppCompatActivity {
 
         //get all products
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(firebaseAuth.getUid()).child("Products")
+        reference.child(Objects.requireNonNull(firebaseAuth.getUid())).child("Products")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

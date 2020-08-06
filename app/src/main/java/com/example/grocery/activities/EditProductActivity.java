@@ -167,6 +167,7 @@ public class EditProductActivity extends AppCompatActivity {
     private void loadProductDetails() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child(firebaseAuth.getUid()).child("Products").child(productId)
+                /*halaman 6 menit 50*/
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

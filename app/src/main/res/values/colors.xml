@@ -9,4 +9,7 @@
     <color name="colorBlack">#000</color>
     <color name="colorGreen">#43A047</color>
     <color name="colorRed">#FF0000</color>
+    <color name="colorGray00">#f5f0f0</color>
+    <color name="colorsmartdata">#118AB2</color>
+
 </resources>

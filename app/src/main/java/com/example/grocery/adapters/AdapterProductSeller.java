@@ -74,8 +74,8 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         holder.titleTv.setText(title);
         holder.quantitiyTv.setText(quantity);
         holder.discountedNoteTv.setText(discountNote);
-        holder.discountedPriceTv.setText("$"+discountPrice);
-        holder.originalPriceTv.setText("$"+originalPrice);
+        holder.discountedPriceTv.setText("Rp"+discountPrice);
+        holder.originalPriceTv.setText("Rp"+originalPrice);
         if(discountAvailable.equals("true"))
         {
             //product is on discount
@@ -156,8 +156,8 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         categoryTv.setText(productCategory);
         quantityTv.setText(quantity);
         discountNoteTv.setText(discountNote);
-        discountedPriceTv.setText("$"+ discountPrice);
-        originalPriceTv.setText("$"+ originalPrice);
+        discountedPriceTv.setText("Rp"+ discountPrice);
+        originalPriceTv.setText("Rp"+ originalPrice);
 
         if(discountAvailable.equals("true"))
         {

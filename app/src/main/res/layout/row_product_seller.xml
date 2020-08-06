@@ -63,7 +63,7 @@
                 android:id="@+id/discountedPriceTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$10"
+                android:text="Rp1000"
                 android:layout_marginEnd="10dp"
                 android:textColor="@color/colorGray02"/>
 
@@ -72,7 +72,7 @@
                     android:id="@+id/originalPriceTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$20"
+                    android:text="Rp2000"
                     android:textColor="@color/colorGray02"/>
 
             </RelativeLayout>
